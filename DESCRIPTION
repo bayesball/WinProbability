@@ -1,11 +1,10 @@
 Package: WinProbability
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Win Probabilities for Retrosheet
 Version: 0.1.0
 Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Maintainer: Jim Albert <albert@bgsu.edu>
+Description: Given a raw Retrosheet play-by-play datafile, computes run expectancies and win probabilities.
+License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: true

@@ -1,0 +1,71 @@
+---
+title: "Win Probability Package"
+author: "Jim Albert"
+date: "1/31/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      warning = FALSE,
+                      message = FALSE)
+```
+
+#### Introduction
+
+Here is a brief illustration of using the WinProbability package just created on my Github site.
+
+Install the package from Github:
+
+```{r}
+library(devtools)
+install_github("bayesball/WinProbability")
+```
+
+Load the package:
+
+```{r}
+library(WinProbability)
+```
+
+#### Setup
+
+I'm in a folder where I have a raw Retrosheet play-by-play datafile.  Note that the file must be of the form ```allYEAR.csv``` where YEAR is the value input in the function.
+
+```{r}
+dir()
+```
+
+#### Compute runs expectancies
+
+The ```compute.runs.expectancy``` function:
+
+- Reads in the raw dataset
+- Adds a header to the Retrosheet datafile
+- Computes the run expectancies and adds these to the datafile
+
+```{r}
+d2018 <- compute.runs.expectancy(2018)
+```
+
+#### Compute win probabilities
+
+The ```compute.win.probs``` function will
+
+- Compute the win probabilities for all plays.
+- The input is the Retrosheet play-by-play data frame with run expectancy values included
+
+```{r}
+d2018 <- compute.win.probs(d2018)
+```
+
+
+#### Graph the win probabilities for a game
+
+The ```graph.game``` function will plot the win probabilities for all plays in a specific game.
+
+```{r}
+plays <- graph.game(d2018, "SLN201805190")
+```
+
+

@@ -20,9 +20,9 @@ compute.runs.expectancy <- function(season){
   data.file <- paste("all", season, ".csv", sep="")
   data <- read.csv(data.file, header=FALSE)
 
- # fields <- read.csv("data/fields.csv")
- # fields <- read.csv("http://www-math.bgsu.edu/~albert/baseball/fields.csv")
- # names(data) <- fields[, "Header"]
+  # fields <- read.csv("data/fields.csv")
+  # fields <- read.csv("http://www-math.bgsu.edu/~albert/baseball/fields.csv")
+  # names(data) <- fields[, "Header"]
   names(data) <- fields$Header
 
   data$RUNS <- with(data, AWAY_SCORE_CT + HOME_SCORE_CT)
@@ -65,14 +65,14 @@ compute.runs.expectancy <- function(season){
 
   data <- subset(data, (STATE!=NEW.STATE) | (RUNS.SCORED>0))
 
-#  require(plyr)
-#  data.outs <- ddply(data, .(HALF.INNING), summarize,
-#                     Outs.Inning = sum(EVENT_OUTS_CT))
-#  data <- merge(data, data.outs)
+  #  require(plyr)
+  #  data.outs <- ddply(data, .(HALF.INNING), summarize,
+  #                     Outs.Inning = sum(EVENT_OUTS_CT))
+  #  data <- merge(data, data.outs)
 
   require(dplyr)
   data.outs <- summarize(group_by(data, HALF.INNING),
-                Outs.Inning = sum(EVENT_OUTS_CT))
+                         Outs.Inning = sum(EVENT_OUTS_CT))
   data <- merge(data, data.outs)
 
   # for expected runs computation, only consider complete innings

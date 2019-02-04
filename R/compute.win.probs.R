@@ -137,20 +137,20 @@ compute.win.probs <- function(d){
 
   d %>%
     mutate(half.inning.row = 2 * INN_CT + BAT_HOME_ID,
-          runs0 = ifelse(BAT_HOME_ID == 1,
-      HOME_SCORE_CT - AWAY_SCORE_CT + RUNS.STATE,
-      HOME_SCORE_CT - AWAY_SCORE_CT - RUNS.STATE)) -> d
+           runs0 = ifelse(BAT_HOME_ID == 1,
+                          HOME_SCORE_CT - AWAY_SCORE_CT + RUNS.STATE,
+                          HOME_SCORE_CT - AWAY_SCORE_CT - RUNS.STATE)) -> d
 
-d %>%
- mutate(P.OLD = invlogit(S[half.inning.row, "Beta0"] +
-          S[half.inning.row, "Beta1"] * runs0),
-        runs1 = ifelse(BAT_HOME_ID == 1,
-          HOME_SCORE_CT - AWAY_SCORE_CT +
-              RUNS.NEW.STATE + RUNS.SCORED,
-          HOME_SCORE_CT - AWAY_SCORE_CT -
-              RUNS.NEW.STATE - RUNS.SCORED),
-        P.NEW = invlogit(S[half.inning.row, "Beta0"] +
-          S[half.inning.row, "Beta1"] * runs1),
-       WPA = P.NEW - P.OLD) %>%
-      select(-c("half.inning.row", "runs0", "runs1"))
+  d %>%
+    mutate(P.OLD = invlogit(S[half.inning.row, "Beta0"] +
+                              S[half.inning.row, "Beta1"] * runs0),
+           runs1 = ifelse(BAT_HOME_ID == 1,
+                          HOME_SCORE_CT - AWAY_SCORE_CT +
+                            RUNS.NEW.STATE + RUNS.SCORED,
+                          HOME_SCORE_CT - AWAY_SCORE_CT -
+                            RUNS.NEW.STATE - RUNS.SCORED),
+           P.NEW = invlogit(S[half.inning.row, "Beta0"] +
+                              S[half.inning.row, "Beta1"] * runs1),
+           WPA = P.NEW - P.OLD) %>%
+    select(-c("half.inning.row", "runs0", "runs1"))
 }

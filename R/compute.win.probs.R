@@ -152,5 +152,15 @@ compute.win.probs <- function(d){
            P.NEW = invlogit(S[half.inning.row, "Beta0"] +
                               S[half.inning.row, "Beta1"] * runs1),
            WPA = P.NEW - P.OLD) %>%
-    select(-c("half.inning.row", "runs0", "runs1"))
+    select(-c("half.inning.row", "runs0", "runs1")) -> d
+
+  # make correction for last play of game
+
+  d[d$GAME_END_FL == 1, "P.NEW"] <-
+        as.numeric(d[d$GAME_END_FL == 1, "HOME_SCORE_CT"] +
+                     d[d$GAME_END_FL == 1, "RUNS.SCORED"] *
+                     (d[d$GAME_END_FL == 1, "BAT_HOME_ID"] == 1) >
+             d[d$GAME_END_FL == 1, "AWAY_SCORE_CT"])
+  d$WPA <- d$P.NEW - d$P.OLD
+  d
 }
